@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 //Ide kerülnek majd az alkalmazás "képernyői".
 
-                MoviesScreen(modifier = Modifier.fillMaxSize())
+                MoviesScreen(modifier = Modifier)
             }
         }
     }
