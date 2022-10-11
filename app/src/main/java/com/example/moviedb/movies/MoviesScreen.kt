@@ -6,8 +6,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.moviedb.data.domain.Movie
@@ -37,11 +41,48 @@ fun MovieCard(
     modifier: Modifier = Modifier
 ) {
     Text(text = movie.title)
+
+@Composable
+fun MovieHeadline(
+    painter: Painter,
+    contentDescription: String,
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Row() {
+        Card(
+            modifier = Modifier.padding(bottom = 5.dp),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(150.dp)
+            ) {
+                Image(
+                    painter = painter,
+                    contentDescription = contentDescription,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = title,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 10.dp),
+                fontSize = 14.sp,
+            )
+        }
+    }
 }
 
 
-
-//Előnézetet is tudunk készíteni, akár többet is. 
+//Előnézetet is tudunk készíteni, akár többet is.
 // Ez szuper hasznos, ha meg szeretnénk nézni, hogy a kész composable-k hogy néznek ki.
 @Preview
 @Composable
