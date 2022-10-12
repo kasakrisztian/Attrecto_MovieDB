@@ -1,7 +1,8 @@
 package com.example.moviedb.data.domain
 
 data class Movie(
-    val id: String,
+    val imdbId: String,
     val title: String,
-    val released: Int
+    val released: Int,
+    val poster: String
 )

@@ -10,7 +10,13 @@ import com.example.moviedb.repository.movieRepository
 class MoviesViewModel : ViewModel() {
     var items by mutableStateOf<List<Movie>>(emptyList())
 
+    var searchTerm by mutableStateOf("Movie")
+
     init {
-        items = movieRepository.search("1")
+        search()
+    }
+
+    fun search() {
+        items = movieRepository.search(searchTerm)
     }
 }
