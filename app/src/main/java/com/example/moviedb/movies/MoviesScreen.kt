@@ -17,7 +17,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 //A composable egy függvény, de nagybetűvel szokás kezdeni!
 @Composable
-fun MoviesScreen(modifier: Modifier = Modifier) {
+fun MoviesScreen(
+    toDetail: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val viewModel: MoviesViewModel = viewModel()
     val movies = viewModel.items
     Scaffold(topBar = {
@@ -48,8 +51,14 @@ fun MoviesScreen(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
-                items(items = movies, { it.imdbId }) {
-                    MovieCard(it)
+                items(
+                    items = movies,
+                    key = { it.imdbId }
+                ) {
+                    MovieCard(
+                        movie = it,
+                        onClick = {toDetail(it.imdbId)}
+                    )
                 }
             }
         }
@@ -61,5 +70,7 @@ fun MoviesScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun MoviesScreenPreview() {
-    MoviesScreen()
+    MoviesScreen(
+        toDetail = {}
+    )
 }

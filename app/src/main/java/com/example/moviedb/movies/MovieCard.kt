@@ -1,5 +1,6 @@
 package com.example.moviedb.movies
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -18,47 +19,49 @@ import coil.compose.AsyncImage
 import com.example.moviedb.data.domain.Movie
 
 @Composable
-fun MovieCard(movie: Movie) {
+fun MovieCard(
+    movie: Movie,
+    onClick: () -> Unit
+) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         //shape = RoundedCornerShape(10.dp),
-        elevation = 6.dp
+        elevation = 6.dp,
+        modifier = Modifier.clickable { onClick() }
     ) {
-
-    }
-    Row(
-        modifier = Modifier.padding(8.dp)
-    ) {
-        AsyncImage(
-            model = movie.poster,
-            contentDescription = null,
-            modifier = Modifier.size(width = 90.dp, height = 120.dp),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(
-                text = movie.title,
-                style = MaterialTheme.typography.h6
+        Row(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            AsyncImage(
+                model = movie.poster,
+                contentDescription = null,
+                modifier = Modifier.size(width = 90.dp, height = 120.dp),
+                contentScale = ContentScale.Crop
             )
-            Text(
-                text = movie.released.toString(),
-                style = MaterialTheme.typography.body2
-            )
-            Text(
-                text = movie.imdbId,
-                style = MaterialTheme.typography.body2
-            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                Text(
+                    text = movie.title,
+                    style = MaterialTheme.typography.h6
+                )
+                Text(
+                    text = movie.released.toString(),
+                    style = MaterialTheme.typography.body2
+                )
+                Text(
+                    text = movie.imdbId,
+                    style = MaterialTheme.typography.body2
+                )
+            }
         }
-
     }
 }
 
 @Composable
 fun Detail(movie: Movie) {
     Surface(
-        shape = MaterialTheme.shapes.medium,
-        elevation = 6.dp
+        shape = RoundedCornerShape(25.dp),
+        elevation = 12.dp
     ) {
         Row(
             modifier = Modifier
@@ -99,7 +102,7 @@ fun MovieCard() {
             title = "Star Wars",
             released = 1970,
             poster = ""
-        )
+        ), onClick = {}
     )
 }
 
