@@ -18,4 +18,7 @@ data class MovieDto(
     val type: String,
     @Json(name = "Poster")
     val poster: String,
+    @Json(name = "Plot")
+    val plot: String?,
+    val imdbRating: Float?
 )

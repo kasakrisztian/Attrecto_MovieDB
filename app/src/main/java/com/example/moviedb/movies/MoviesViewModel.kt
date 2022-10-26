@@ -6,11 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviedb.data.domain.Movie
-import com.example.moviedb.repository.movieRepository
+import com.example.moviedb.repository.MovieRepository
 import kotlinx.coroutines.launch
 
 class MoviesViewModel : ViewModel() {
+    private val repository = MovieRepository()
+
     var items by mutableStateOf<List<Movie>>(emptyList())
+    var error by mutableStateOf<Throwable?>(null)
+    var loading by mutableStateOf(false)
 
     var searchTerm by mutableStateOf("Movie")
 
@@ -20,7 +24,13 @@ class MoviesViewModel : ViewModel() {
 
     fun search() {
         viewModelScope.launch {
-            items = movieRepository.search(searchTerm)
+            loading = true
+            try {
+                items = repository.search(searchTerm)
+                error = null
+            } catch (e: Exception) {
+                error = Throwable(e.message)
+            }
         }
     }
 }

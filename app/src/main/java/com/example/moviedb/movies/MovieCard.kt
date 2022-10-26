@@ -27,7 +27,9 @@ fun MovieCard(
         shape = MaterialTheme.shapes.medium,
         //shape = RoundedCornerShape(10.dp),
         elevation = 6.dp,
-        modifier = Modifier.clickable { onClick() }
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier.padding(8.dp)

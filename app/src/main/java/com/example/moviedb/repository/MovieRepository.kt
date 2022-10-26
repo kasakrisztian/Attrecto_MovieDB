@@ -2,11 +2,7 @@ package com.example.moviedb.repository
 
 import com.example.moviedb.data.Network
 import com.example.moviedb.data.domain.Movie
-import java.util.*
-import kotlin.random.Random
-import kotlin.random.nextInt
-
-val movieRepository = MovieRepository()
+import com.example.moviedb.data.domain.MovieDto
 
 class MovieRepository {
     /*private val movies = (1..100).map {
@@ -22,13 +18,21 @@ class MovieRepository {
     val api = Network.provideMoviesApi()
 
     suspend fun search(pattern: String): List<Movie>{
-        return api.searchMovies(pattern).movies.map { movideDto ->
-            Movie(
-                imdbId = movideDto.imdbId,
-                title = movideDto.title,
-                released = movideDto.year.toInt(),
-                poster = movideDto.poster
-            )
+        return api.searchMovies(pattern).movies.map { movieDto ->
+            movieDto.toMovie()
         }
     }
+
+    suspend fun searchByImdbId(imdbId: String) : Movie {
+        return api.searchByImdbId(imdbId).toMovie()
+    }
 }
+
+fun MovieDto.toMovie() = Movie(
+    imdbId = imdbId,
+    title = title,
+    released = year.toInt(),
+    poster = poster,
+    imdbRating = imdbRating,
+    plot = plot
+)

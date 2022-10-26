@@ -18,15 +18,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 //A composable egy függvény, de nagybetűvel szokás kezdeni!
 @Composable
 fun MoviesScreen(
-    toDetail: (String) -> Unit,
+    toDetail: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: MoviesViewModel = viewModel()
     val movies = viewModel.items
+    var error = viewModel.error
+
     Scaffold(topBar = {
         TopAppBar(title = { Text("Movie list") })
     }) {
-        Column() {
+        Column {
             Row(
                 modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -45,20 +47,26 @@ fun MoviesScreen(
                     )
                 }
             }
-            //Hasonlóan működik, mint a RecyclerView
-            LazyColumn(
-                modifier = modifier.background(MaterialTheme.colors.background),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                items(
-                    items = movies,
-                    key = { it.imdbId }
-                ) {
-                    MovieCard(
-                        movie = it,
-                        onClick = {toDetail(it.imdbId)}
-                    )
+            when {
+                viewModel.loading -> CircularProgressIndicator()
+                error != null -> Text(text = error.toString())
+                else -> {
+                    //Hasonlóan működik, mint a RecyclerView
+                    LazyColumn(
+                        modifier = modifier.background(MaterialTheme.colors.background),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(16.dp)
+                    ) {
+                        items(
+                            items = movies,
+                            key = { it.imdbId }
+                        ) {
+                            MovieCard(
+                                movie = it,
+                                onClick = { toDetail(it.imdbId, viewModel.searchTerm) }
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -67,10 +75,11 @@ fun MoviesScreen(
 
 //Előnézetet is tudunk készíteni, akár többet is. 
 // Ez szuper hasznos, ha meg szeretnénk nézni, hogy a kész composable-k hogy néznek ki.
+/*
 @Preview
 @Composable
 fun MoviesScreenPreview() {
     MoviesScreen(
         toDetail = {}
     )
-}
+}*/
